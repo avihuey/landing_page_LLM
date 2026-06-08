@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>מחקר PRIMAS | שיבא תל-השומר</title>
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;font-family:'Assistant',sans-serif;direction:rtl;background:#0d1b2a;color:#e2e8f0}
+.app{height:100vh;display:flex;flex-direction:column;overflow:hidden}
+.slides-wrap{flex:1;overflow:hidden;position:relative}
+.slide{display:none;position:absolute;top:0;left:0;right:0;bottom:0;overflow-y:auto;-webkit-overflow-scrolling:touch;animation:fi 0.3s ease}
+.slide.active{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+.hero{padding:32px 20px 22px;text-align:center}
+.tag{display:inline-block;background:rgba(45,212,191,0.12);color:#5eead4;font-size:10px;font-weight:700;letter-spacing:1.5px;padding:4px 14px;border-radius:20px;border:1px solid rgba(45,212,191,0.3);margin-bottom:16px}
+.hero-emoji{font-size:48px;margin-bottom:10px;display:block}
+.hero-title{color:#f0f9ff;font-size:21px;font-weight:700;line-height:1.45}
+.hero-sub{color:#94a3b8;font-size:13px;margin-top:8px}
+
+.body{padding:0 18px 24px}
+.card{background:#1e2d3d;border-radius:14px;padding:16px 18px;margin-bottom:12px;border:1px solid #2a3a4a}
+.card-title{font-size:14px;font-weight:700;color:#5eead4;margin-bottom:8px}
+.card-text{font-size:14px;color:#cbd5e1;line-height:1.8}
+.card-text strong{color:#e2e8f0;font-weight:700}
+
+.lang-row{display:flex;gap:8px;margin-top:10px}
+.lang-btn{flex:1;background:#1e2d3d;border:1.5px solid #2dd4bf;border-radius:10px;padding:11px 6px;text-align:center;cursor:pointer;font-size:14px;font-weight:700;color:#f0f9ff;font-family:'Assistant',sans-serif;transition:background 0.2s;-webkit-appearance:none}
+.lang-btn:hover,.lang-btn:active{background:rgba(45,212,191,0.2)}
+.lang-btn.selected{background:rgba(45,212,191,0.2);color:#2dd4bf}
+
+.strip{background:rgba(45,212,191,0.08);border-radius:12px;padding:12px 16px;font-size:13px;color:#94a3b8;line-height:1.75;border:1px solid rgba(45,212,191,0.15);margin-bottom:12px}
+.strip strong{color:#5eead4}
+
+.arms{display:flex;gap:10px;margin-top:10px}
+.arm{flex:1;background:#0d1b2a;border-radius:12px;padding:14px 8px;text-align:center;border:1px solid #2a3a4a}
+.arm-emoji{font-size:26px;display:block;margin-bottom:6px}
+.arm-label{font-size:12px;font-weight:700;color:#5eead4}
+.arm-desc{font-size:12px;color:#94a3b8;margin-top:4px;line-height:1.5}
+
+.step{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px}
+.snum{width:32px;height:32px;border-radius:50%;background:rgba(45,212,191,0.15);border:1px solid rgba(45,212,191,0.35);color:#2dd4bf;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.stext{font-size:14px;color:#cbd5e1;line-height:1.75;padding-top:4px}
+.stext strong{color:#e2e8f0}
+
+.choice-btn{display:block;width:100%;border-radius:14px;padding:18px 20px;margin-bottom:12px;cursor:pointer;font-family:'Assistant',sans-serif;font-size:16px;font-weight:700;border:2px solid;text-align:center;transition:all 0.2s;-webkit-appearance:none;background:none}
+.choice-yes{border-color:#2dd4bf;color:#2dd4bf}
+.choice-yes:hover,.choice-yes:active{background:rgba(45,212,191,0.15)}
+.choice-no{border-color:#2a3a4a;color:#94a3b8}
+.choice-no:hover,.choice-no:active{background:#1e2d3d}
+.choice-sub{font-size:12px;font-weight:400;margin-top:4px;opacity:0.8}
+
+.contact-card{background:#1e2d3d;border-radius:14px;padding:18px;border:1px solid #2a3a4a;text-align:center;margin-bottom:12px}
+.contact-avatar{width:56px;height:56px;border-radius:50%;background:rgba(45,212,191,0.15);border:1px solid rgba(45,212,191,0.3);display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 10px}
+.contact-name{font-size:16px;font-weight:700;color:#f0f9ff;margin-bottom:3px}
+.contact-role{font-size:12px;color:#94a3b8;margin-bottom:14px}
+.contact-btn{display:block;background:rgba(45,212,191,0.15);border:1px solid #2dd4bf;color:#2dd4bf;font-size:14px;font-weight:700;padding:11px;border-radius:10px;text-decoration:none;font-family:'Assistant',sans-serif;width:100%;cursor:pointer;-webkit-appearance:none}
+.contact-btn:hover,.contact-btn:active{background:rgba(45,212,191,0.25)}
+.contact-note{font-size:12px;color:#64748b;margin-top:12px;line-height:1.6;text-align:center}
+
+.nav{height:70px;background:#0d1b2a;border-top:1px solid #1e2d3d;display:flex;align-items:center;justify-content:space-between;padding:0 16px;flex-shrink:0}
+.nbtn{background:none;border:1px solid #2a3a4a;color:#5eead4;font-size:22px;cursor:pointer;padding:10px 20px;border-radius:10px;font-family:'Assistant',sans-serif;-webkit-appearance:none;min-width:60px;min-height:44px}
+.nbtn:active{background:#1e2d3d}
+.nbtn:disabled{opacity:0.25;cursor:default}
+.dots{display:flex;gap:6px;align-items:center}
+.dot{width:8px;height:8px;border-radius:50%;background:#2a3a4a;cursor:pointer;transition:all 0.3s;min-width:8px;min-height:8px}
+.dot.active{background:#2dd4bf;transform:scale(1.4)}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="slides-wrap">
+
+<!-- SLIDE 1 -->
+<div class="slide active" id="s0">
+  <div class="hero">
+    <div class="tag">2019-25-SMC-D · שיבא תל-השומר</div>
+    <span class="hero-emoji">🧠🤰</span>
+    <div class="hero-title">בינה מלאכותית<br>בשירות המטופלת</div>
+    <div class="hero-sub">מחלקת נשים ויולדות · מחקר קליני</div>
+  </div>
+  <div class="body">
+    <div class="card">
+      <div class="card-title">👋 ברוכה הבאה</div>
+      <div class="card-text">את מוזמנת לקרוא על המחקר שלנו ולהחליט אם את רוצה להשתתף. הכל מוסבר בצורה פשוטה וברורה.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">🌐 באיזו שפה להמשיך?</div>
+      <div class="lang-row">
+        <button class="lang-btn selected">עברית</button>
+        <button class="lang-btn">العربية</button>
+        <button class="lang-btn">English</button>
+      </div>
+    </div>
+    <div class="strip">💡 לחצי על החץ בתחתית כדי לעבור לדף הבא</div>
+  </div>
+</div>
+
+<!-- SLIDE 2 -->
+<div class="slide" id="s1">
+  <div class="hero">
+    <span class="hero-emoji">📋✨</span>
+    <div class="hero-title">מהו המחקר?</div>
+    <div class="hero-sub">הסבר קצר ופשוט</div>
+  </div>
+  <div class="body">
+    <div class="card">
+      <div class="card-title">🏥 הרקע</div>
+      <div class="card-text">כשאת מאושפזת במחלקת יולדות בסיכון גבוה, הרופאים כותבים ביומיום הרבה מידע רפואי בתיק שלך — תוצאות בדיקות, תרופות, הערות קליניות. <strong>למרות הרצון הרב שלנו, לא תמיד כל המידע מצליח לעבור.</strong></div>
+    </div>
+    <div class="card">
+      <div class="card-title">🤖 הרעיון שלנו</div>
+      <div class="card-text">אנחנו בוחנים אם שימוש ב<strong>בינה מלאכותית (AI)</strong> — דרך סביבה מאובטחת של שיבא — יכול לייצר סיכומים רפואיים קצרים ומובנים שיועברו אלייך במהלך האשפוז. כל סיכום נבדק ומאושר על ידי רופא לפני שמגיע אלייך.</div>
+    </div>
+    <div class="strip">🔒 <strong>פרטיותך מוגנת לחלוטין</strong> — המידע הרפואי שלך לא יוצא מהמערכת הפנימית של שיבא</div>
+  </div>
+</div>
+
+<!-- SLIDE 3 -->
+<div class="slide" id="s2">
+  <div class="hero">
+    <span class="hero-emoji">📄💬</span>
+    <div class="hero-title">מה זה אומר בפועל?</div>
+    <div class="hero-sub">הסיכומים שתוכלי לקבל</div>
+  </div>
+  <div class="body">
+    <div class="card">
+      <div class="card-title">📝 מה יהיה בסיכום?</div>
+      <div class="card-text">סיכום קצר ובשפה פשוטה של:<br><br>
+        • מהלך האשפוז שלך עד כה<br>
+        • הטיפולים והתרופות שאת מקבלת<br>
+        • מה הצוות עוקב אחריו<br>
+        • מה צפוי בהמשך
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">⏱️ מתי ואיך?</div>
+      <div class="card-text">הסיכום הראשון יווצר ב<strong>ימים 3–5 מתחילת האשפוז</strong>, ואחר כך כל <strong>3–5 ימים</strong>. תקבלי עד <strong>3 סיכומים</strong> בסך הכל. כל סיכום מגיע אלייך בבוקר, לפני סיבוב הרופאים.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 4 -->
+<div class="slide" id="s3">
+  <div class="hero">
+    <span class="hero-emoji">🎲</span>
+    <div class="hero-title">שתי קבוצות במחקר</div>
+    <div class="hero-sub">הגרלה מחשבית הוגנת</div>
+  </div>
+  <div class="body">
+    <div class="card">
+      <div class="card-title">🔀 איך מחליטים?</div>
+      <div class="card-text">אם תסכימי להשתתף, תוקצי באקראי לאחת משתי הקבוצות — <strong>כמו הטלת מטבע</strong>. ההחלטה נעשית על ידי מחשב בלבד.</div>
+      <div class="arms">
+        <div class="arm">
+          <span class="arm-emoji">📄</span>
+          <div class="arm-label">קבוצה א׳</div>
+          <div class="arm-desc">מקבלת סיכומי AI + טיפול רגיל</div>
+        </div>
+        <div class="arm">
+          <span class="arm-emoji">🏥</span>
+          <div class="arm-label">קבוצה ב׳</div>
+          <div class="arm-desc">טיפול רגיל ומסור — אבל בלי סיכומים</div>
+        </div>
+      </div>
+    </div>
+    <div class="strip">בשתי הקבוצות: <strong>הטיפול הרפואי זהה לחלוטין</strong> — ההבדל היחיד הוא קבלת הסיכומים</div>
+  </div>
+</div>
+
+<!-- SLIDE 5 -->
+<div class="slide" id="s4">
+  <div class="hero">
+    <span class="hero-emoji">📊🖊️</span>
+    <div class="hero-title">מה מבקשים ממך?</div>
+    <div class="hero-sub">השתתפות פשוטה ומינימלית</div>
+  </div>
+  <div class="body">
+    <div class="card">
+      <div class="card-title">📋 שאלונים</div>
+      <div class="card-text">תתבקשי למלא שני שאלונים קצרים:</div>
+    </div>
+    <div class="step">
+      <div class="snum">1</div>
+      <div class="stext"><strong>בתחילת האשפוז</strong> — שאלון PAM-13 (מעורבות בטיפול) ו-EPDS (מצב רוח). כ-10 דקות.</div>
+    </div>
+    <div class="step">
+      <div class="snum">2</div>
+      <div class="stext"><strong>לקראת הסוף / לפני השחרור</strong> — אותם שאלונים שוב, בתוספת שאלון שביעות רצון קצר.</div>
+    </div>
+    <div class="strip">✏️ השאלונים קיימים ב<strong>עברית, ערבית ואנגלית</strong> — תוכלי למלא בשפה שבה את מרגישה בנוח</div>
+  </div>
+</div>
+
+<!-- SLIDE 6 -->
+<div class="slide" id="s5">
+  <div class="hero">
+    <span class="hero-emoji">🤝</span>
+    <div class="hero-title">מה את מחליטה?</div>
+    <div class="hero-sub">אין לחץ — ההחלטה שלך לגמרי</div>
+  </div>
+  <div class="body">
+    <button class="choice-btn choice-yes" id="choiceYes">
+      ✅ אשמח להשתתף במחקר
+      <div class="choice-sub">לחצי כאן כדי להמשיך</div>
+    </button>
+    <button class="choice-btn choice-no" id="choiceNo">
+      בשלב זה אינני מעוניינת
+      <div class="choice-sub">תמיד ניתן לשנות את ההחלטה בהמשך</div>
+    </button>
+    <div class="strip">ההשתתפות היא <strong>התנדבותית לחלוטין</strong> — ניתן לפרוש בכל שלב ללא כל השפעה על הטיפול הרפואי</div>
+  </div>
+</div>
+
+<!-- SLIDE 7 -->
+<div class="slide" id="s6">
+  <div class="hero">
+    <span class="hero-emoji">💬</span>
+    <div class="hero-title">יש שאלות?<br>אנחנו כאן בשבילך</div>
+    <div class="hero-sub">נשמח לענות על כל שאלה</div>
+  </div>
+  <div class="body">
+    <div class="contact-card">
+      <div class="contact-avatar">👨‍⚕️</div>
+      <div class="contact-name">ד"ר אביהוא קריגר</div>
+      <div class="contact-role">חוקר ראשי · מחלקת נשים ויולדות, שיבא תל-השומר</div>
+      <a class="contact-btn" href="tel:0547421909">📞 054-742-1909</a>
+    </div>
+    <div class="strip">
+      <strong>זכות הפרישה:</strong> ניתן להפסיק להשתתף בכל שלב, ללא כל השפעה על הטיפול הרפואי שתקבלי.
+    </div>
+    <div class="contact-note">
+      מחקר מספר 2019-25-SMC-D<br>
+      מחלקת נשים ויולדות, שיבא תל-השומר<br>
+      <span style="color:#2dd4bf;font-size:11px">אנחנו כאן בשבילך</span>
+    </div>
+  </div>
+</div>
+
+</div><!-- /slides-wrap -->
+
+<div class="nav">
+  <button class="nbtn" id="prevBtn">▶</button>
+  <div class="dots" id="dots"></div>
+  <button class="nbtn" id="nextBtn">◀</button>
+</div>
+</div><!-- /app -->
+
+<script>
+(function(){
+  var slides = document.querySelectorAll('.slide');
+  var total = slides.length;
+  var cur = 0;
+  var dotsEl = document.getElementById('dots');
+  var prevBtn = document.getElementById('prevBtn');
+  var nextBtn = document.getElementById('nextBtn');
+
+  for(var i = 0; i < total; i++){
+    var d = document.createElement('div');
+    d.className = 'dot' + (i===0 ? ' active' : '');
+    d.setAttribute('data-i', i);
+    dotsEl.appendChild(d);
+  }
+
+  function goTo(n){
+    if(n < 0 || n >= total) return;
+    slides[cur].classList.remove('active');
+    dotsEl.children[cur].classList.remove('active');
+    cur = n;
+    slides[cur].classList.add('active');
+    dotsEl.children[cur].classList.add('active');
+    slides[cur].scrollTop = 0;
+    prevBtn.disabled = cur === 0;
+    nextBtn.disabled = cur === total - 1;
+  }
+
+  prevBtn.disabled = true;
+  nextBtn.disabled = false;
+
+  prevBtn.addEventListener('click', function(){ goTo(cur - 1); });
+  nextBtn.addEventListener('click', function(){ goTo(cur + 1); });
+
+  dotsEl.addEventListener('click', function(e){
+    var t = e.target;
+    if(t.classList.contains('dot')){
+      goTo(parseInt(t.getAttribute('data-i')));
+    }
+  });
+
+  document.querySelectorAll('.lang-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      btn.closest('.lang-row').querySelectorAll('.lang-btn').forEach(function(b){ b.classList.remove('selected'); });
+      btn.classList.add('selected');
+    });
+  });
+
+  var choiceYes = document.getElementById('choiceYes');
+  var choiceNo = document.getElementById('choiceNo');
+  if(choiceYes) choiceYes.addEventListener('click', function(){ goTo(6); });
+  if(choiceNo) choiceNo.addEventListener('click', function(){ goTo(6); });
+
+})();
+</script>
+</body>
+</html>
